@@ -35,7 +35,7 @@ behind a boxplot's whiskers. Applied at two levels:
   discount relative to their Category's norm, concentrated in Office Supplies
   orders discounted 70–80%. A concrete, actionable finding.
 
-![Discount by Category boxplot](discount_boxplot.png)
+![Discount by Category boxplot](data/discount_boxplot.png)
 
 ## Automation
 
@@ -51,7 +51,7 @@ Python, pandas, matplotlib, python-pptx
 
 ```bash
 pip install pandas matplotlib python-pptx
-python scripts/regional_performance_anomaly_detection.py
+python scripts/region_anomaly_detection.py
 ```
 
 ## Repo structure
