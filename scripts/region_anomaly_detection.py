@@ -131,7 +131,6 @@ def plot_discount_by_category(df):
     plt.xlabel('Category')
     plt.ylabel('Discount')
 
-    plt.savefig(os.path.join('..', 'data', 'discount_boxplot.png'), bbox_inches='tight')
     # Step 3: show it
     plt.show()
 
@@ -161,7 +160,7 @@ tf_title.paragraphs[0].runs[0].font.bold = True
 # ── 4. INSERT CHART IMAGE ────────────────────────────────────────────────────
 # (changed: new chart file, and shifted down/shrunk slightly to leave room
 #  for the findings text below it)
-chart_path = os.path.join('..', 'data', 'discount_boxplot.png')
+chart_path = os.path.join('..', 'charts', 'discount_by_category.png')
 
 left   = Inches(0.5)
 top    = Inches(1.3)
