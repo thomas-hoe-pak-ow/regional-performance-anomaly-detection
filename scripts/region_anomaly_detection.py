@@ -179,7 +179,7 @@ findings_text = (
     "Q1 (Region \u00d7 Sub-Category margin): no statistical outliers detected \u2014 "
     "expected, since aggregation smooths extremes.\n"
     "Q2 (order-level discount): 703 of 9,994 orders (~7%) flagged as unusually high "
-    "discount vs. their Category norm \u2014 concentrated in Office Supplies at 70\u201380% discount."
+    "discount vs. their Category norm \u2014 in Office Supplies (70\u201380%) and Technology (70%)."
 )
 tf_findings.text = findings_text
 for para in tf_findings.paragraphs:
@@ -194,5 +194,61 @@ tf.paragraphs[0].runs[0].font.color.rgb = RGBColor(0x88, 0x88, 0x88)
 
 # ── 7. SAVE OUTPUT ───────────────────────────────────────────────────────────
 output_path = os.path.join('..', 'data', 'anomaly_detection_summary.pptx')
+# prs.save(output_path)
+# print(f"Presentation saved to {output_path}")
+
+
+# ── 2.2. ACCESS SLIDE 2 ────────────────────────────────────────────────────────
+slide2 = prs.slides.add_slide(slide.slide_layout)
+
+# ── 2.3. ADD A TITLE ───────────────────────────────────────────────────────────
+# (new — previous version relied on the template's own title, if any)
+title_box2 = slide2.shapes.add_textbox(Inches(0.5), Inches(0.3), Inches(9), Inches(0.8))
+tf_title2 = title_box2.text_frame
+tf_title2.text = 'Regional Performance Anomaly Detection — Key Findings #2'
+tf_title2.paragraphs[0].runs[0].font.size = Pt(24)
+tf_title2.paragraphs[0].runs[0].font.bold = True
+
+# ── 2.4. INSERT CHART IMAGE ────────────────────────────────────────────────────
+# (changed: new chart file, and shifted down/shrunk slightly to leave room
+#  for the findings text below it)
+chart_path = os.path.join('..', 'charts', 'profit_by_region_category.png')
+
+left   = Inches(0.5)
+top    = Inches(1.3)
+width  = Inches(9)
+height = Inches(4.2)
+
+slide2.shapes.add_picture(chart_path, left, top, width, height)
+
+# ── 2.5. ADD FINDINGS SUMMARY ──────────────────────────────────────────────────
+# (new — the actual "so what" for someone reading the slide)
+findings_box2 = slide2.shapes.add_textbox(Inches(0.5), Inches(5.6), Inches(9), Inches(1.1))
+tf_findings2 = findings_box2.text_frame
+tf_findings2.word_wrap = True
+
+findings_text2 = (
+    "(Region \u00d7 Category profit): no statistical outliers detected \u2014 "
+    "similarly expected, since aggregation smooths extremes."
+)
+tf_findings2.text = findings_text2
+for para in tf_findings2.paragraphs:
+    para.runs[0].font.size = Pt(12)
+
+# ── 6. ADD A SUBTITLE / SOURCE LINE ─────────────────────────────────────────
+txBox2 = slide2.shapes.add_textbox(Inches(0.5), Inches(6.9), Inches(9), Inches(0.4))
+tf2 = txBox2.text_frame
+tf2.text = 'Source: Superstore Sales Dataset | Method: IQR-based outlier detection'
+tf2.paragraphs[0].runs[0].font.size = Pt(9)
+tf2.paragraphs[0].runs[0].font.color.rgb = RGBColor(0x88, 0x88, 0x88)
+
+# ── 7. SAVE OUTPUT ───────────────────────────────────────────────────────────
+output_path = os.path.join('..', 'data', 'anomaly_detection_summary.pptx')
+# Remove empty placeholders left by the template layout
+for s in prs.slides:
+    for shape in list(s.placeholders):
+        if shape.has_text_frame and not shape.text_frame.text.strip():
+            shape._element.getparent().remove(shape._element)
+            
 prs.save(output_path)
 print(f"Presentation saved to {output_path}")

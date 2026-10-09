@@ -51,8 +51,8 @@ behind a boxplot's whiskers. Applied at two levels:
 
 Two scripts run in sequence: `charting.py` (reusable chart functions: ranked
 bar, scatter, box plot) generates the charts, then
-`region_anomaly_detection.py` runs the detection and auto-populates a
-PowerPoint summary slide (via `python-pptx`). Rerunnable against updated data.
+`region_anomaly_detection.py` runs the detection and auto-populates a two-slide
+PowerPoint summary (via `python-pptx`). Rerunnable against updated data.
 
 ## Tech stack
 
