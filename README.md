@@ -53,6 +53,7 @@ Two scripts run in sequence: `charting.py` (reusable chart functions: ranked
 bar, scatter, box plot) generates the charts, then
 `region_anomaly_detection.py` runs the detection and auto-populates a two-slide
 PowerPoint summary (via `python-pptx`). Rerunnable against updated data.
+Shared IQR flagging logic lives in `flags.py` and is imported by both scripts.
 
 ## Tech stack
 
@@ -71,6 +72,7 @@ python scripts/region_anomaly_detection.py
 ```
 ├── scripts/
 │   ├── charting.py
+│   ├── flags.py
 │   └── region_anomaly_detection.py
 ├── data/
 │   ├── Sample - Superstore.csv

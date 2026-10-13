@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
+from flags import flag_high_values
 
 def plot_ranked_bar(df, group_cols, value_col, flag_outliers=True):
     # Aggregate to group level
@@ -57,20 +58,12 @@ if __name__ == "__main__":
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     # Load the file
     df = pd.read_csv("../data/Sample - Superstore.csv", encoding = "latin-1")
-    # print("Number of rows: ", len(df))
-    # print("Number of columns: ", len(df.columns))
-    # print("Columns:", df.columns.to_list())
-    # print("The columns are:", df.columns.to_list())
-    # print("The shape of the dataset")
-    # print(df.shape)
 
     # Horizontal Bar Plot
     fig_bar, ax_bar = plot_ranked_bar(df, ["Region", "Category"], "Profit")
 
     # Row-level flag: discount above the upper IQR fence within its own Category
-    q1 = df.groupby("Category")["Discount"].transform(lambda s: s.quantile(0.25))
-    q3 = df.groupby("Category")["Discount"].transform(lambda s: s.quantile(0.75))
-    df["high_discount"] = df["Discount"] > q3 + 1.5 * (q3 - q1)
+    df = flag_high_values(df, "Category", "Discount")
 
     # Scatterplot
     fig_sc, ax_sc = plot_scatter(df, "Discount", "Profit", "high_discount")
@@ -81,16 +74,5 @@ if __name__ == "__main__":
     fig_bar.savefig("../charts/profit_by_region_category.png", dpi=150)
     fig_sc.savefig("../charts/discount_vs_profit.png", dpi=150)
     fig_box.savefig("../charts/discount_by_category.png", dpi=150)
-    # Checks
-    # print(df.groupby("Discount")["Profit"].agg(["count", "sum", lambda s: (s < 0).mean()]))
-
-    # print(df[(df["Discount"] >= 0.7) & (~df["high_discount"])].groupby("Category").size())
-    # print(df[df["Discount"] >= 0.3]["Profit"].sum())
-
-    # q1 = df.groupby("Category")["Discount"].quantile(0.25)
-    # q3 = df.groupby("Category")["Discount"].quantile(0.75)
-    # print(q3 + 1.5 * (q3 - q1))
-
-    # print(df[df["high_discount"]].groupby("Category")["Discount"].unique())
 
     plt.show()
